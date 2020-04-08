@@ -32,9 +32,13 @@ class UserController extends Controller
             $newUser->username = $_POST['username'];
             $newUser->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $newUser->user_type = $_POST['user_type'];
-            $newUser->create();
-            $_SESSION["username"] = $newUser->username;
-            header('location:../index');
+            $check = $newUser->create();
+            if($check > 0) {
+                $_SESSION["username"] = $newUser->username;
+                header('location:../index');
+            } else {
+                $this->view('user/signup', ['error' => 'Dupliacte Username']);
+            }
         } else {
             $this->view('user/signup');
         }

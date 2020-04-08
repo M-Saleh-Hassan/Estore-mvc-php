@@ -130,6 +130,16 @@
                             <h3>Welcome Back ! <br>
                                 Please sign up now</h3>
                             <form class="row contact_form" action="#" method="post">
+                                <?php
+                                    if(isset($data['error'])) {
+                                    ?>
+                                        <div class="alert alert-danger" role="alert">
+                                            <?=$data['error']?>
+                                        </div>
+                                    <?php
+                                    }
+                                  
+                                ?>
                                 <div class="col-md-12 form-group p_star">
                                     <input type="text" class="form-control" id="name" name="username" value="" placeholder="Username" required>
                                 </div>
