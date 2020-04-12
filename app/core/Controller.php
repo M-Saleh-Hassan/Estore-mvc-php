@@ -12,7 +12,9 @@ class Controller{
 
 	public function view($name, $data =[]){
 		if(file_exists('app/views/' . $name. '.php')){  //if  the file exist
+			require_once  'app/views/includes/header.php';
 			include 'app/views/' .  $name . '.php'; //include the file from the views folder. $data will contain data in this view
+			require_once  'app/views/includes/footer.php';
 			
 		}else{
 			return "ERROR: the view $name does not exist! ";
