@@ -60,6 +60,11 @@
 											<li><a href="<?=$GLOBALS['home_path']?>/index">Home</a></li>
 											<li><a href="#">Categories</a></li>
 											<li><a href="<?=$GLOBALS['url_path'].'/user/account'?>">Account</a></li>
+											<?php
+												if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'seller') {
+													echo '<li><a href="'.$GLOBALS['url_path'].'/product/index">Shop</a></li>';
+												}
+											?>
 										</ul>
 									</nav>
 								</div>

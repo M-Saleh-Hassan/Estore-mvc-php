@@ -15,6 +15,7 @@ class UserController extends Controller
             if($user && password_verify($_POST['password'], $user->password))
             {
                 $_SESSION["user_id"] = $user->id;
+                $_SESSION["user_type"] = $user->user_type;
                 header('location:'.$GLOBALS['url_path'].'/index');
             } else {
                 $this->view('user/login', ['error' => 'wrong credentials']);
@@ -36,6 +37,7 @@ class UserController extends Controller
             if($check > 0) {
                 $user = $newUser->find($_POST['username']);
                 $_SESSION["user_id"] = $user->id;
+                $_SESSION["user_type"] = $user->user_type;
                 header('location:'.$GLOBALS['url_path'].'/index');
             } else {
                 $this->view('user/signup', ['error' => 'Dupliacte Username']);

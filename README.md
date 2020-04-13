@@ -10,5 +10,9 @@ Default is mvc folder inside htdocs if you use xampp
 /index   
 /user/login   
 /user/signup   
-/user/account
+/user/account   
+/product/index   
+/product/create   
+/product/edit/{product_id}   
+/product/delete/{product_id}      
 
