@@ -59,6 +59,7 @@
 										<ul id="navigation">
 											<li><a href="<?=$GLOBALS['home_path']?>/index">Home</a></li>
 											<li><a href="#">Categories</a></li>
+											<li><a href="<?=$GLOBALS['url_path'].'/user/account'?>">Account</a></li>
 										</ul>
 									</nav>
 								</div>
@@ -79,7 +80,7 @@
 										</div>
 									</li>
 									<?php
-										if(isset($_SESSION['username'])){
+										if(isset($_SESSION['user_id'])){
 											echo '<li class="d-none d-lg-block"> <a href="' . $GLOBALS['url_path'] . '/user/logout" class="btn header-btn">Log out</a></li>';
 										}
 										else{
