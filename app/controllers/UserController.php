@@ -49,6 +49,13 @@ class UserController extends Controller
     
     public function logout()
     {
+        if(isset($_SESSION['cart_products'])) {
+            foreach ($_SESSION['cart_products'] as $product_id => $product_object) {
+                $product = $this->model('Product')->find($product_id);
+                $product->quantity += $_SESSION['cart_products'][$product_id]['quantity'];
+                $product->update();
+            }
+        }
         if(isset($_SESSION["user_id"])){
             session_destroy();
         }

@@ -57,9 +57,17 @@
 								<div class="main-menu f-right d-none d-lg-block">
 									<nav>
 										<ul id="navigation">
-											<li><a href="<?=$GLOBALS['home_path']?>/index">Home</a></li>
-											<li><a href="#">Categories</a></li>
-											<li><a href="<?=$GLOBALS['url_path'].'/user/account'?>">Account</a></li>
+											<li><a href="<?=$GLOBALS['url_path']?>/index">Home</a></li>
+											<li><a href="<?=$GLOBALS['url_path'].'/store/index'?>">Products</a></li>
+											<?php
+												if(isset($_SESSION['user_type'])) {
+													?>
+													<li><a href="<?=$GLOBALS['url_path']?>/cart/index">Cart</a></li>
+													<li><a href="<?=$GLOBALS['url_path']?>/order/index">Orders</a></li>
+													<li><a href="<?=$GLOBALS['url_path']?>/user/account">Account</a></li>
+													<?php
+												}
+											?>
 											<?php
 												if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'seller') {
 													echo '<li><a href="'.$GLOBALS['url_path'].'/product/index">Shop</a></li>';
@@ -81,7 +89,7 @@
 									</li>
 									<li>
 										<div class="shopping-card">
-											<a href="#"><i class="fas fa-shopping-cart"></i></a>
+											<a href="<?=$GLOBALS['url_path']?>/cart/index"><i class="fas fa-shopping-cart"></i></a>
 										</div>
 									</li>
 									<?php

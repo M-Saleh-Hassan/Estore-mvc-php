@@ -18,6 +18,7 @@ class ProductController extends Controller
         if($product) {
             if (isset($_POST['action'])) {
                 $product->name = $_POST['name'];
+                $product->description = $_POST['description'];
                 $product->price = $_POST['price'];
                 $product->quantity = $_POST['quantity'];
                 $product->category = $_POST['category'];
@@ -32,7 +33,7 @@ class ProductController extends Controller
                         move_uploaded_file($temp, $path);
                     }
                     else {
-                        $this->view('product/edit', ['product' => $product, 'error' => 'Please choose valid image']);
+                        return $this->view('product/edit', ['product' => $product, 'error' => 'Please choose valid image']);
                     }
                     $product->image = $path;
                 }
@@ -60,6 +61,7 @@ class ProductController extends Controller
             $product = $this->model('Product');
             $product->seller_id = intVal($_SESSION['user_id']);
             $product->name = $_POST['name'];
+            $product->description = $_POST['description'];
             $product->price = $_POST['price'];
             $product->quantity = $_POST['quantity'];
             $product->category = $_POST['category'];
@@ -93,5 +95,35 @@ class ProductController extends Controller
     {
         $product = $this->model('Product')->delete($product_id);
         header('location:'.$GLOBALS['url_path'].'/product/index');        
+    }
+
+    public function details($product_id)
+    {
+        $product = $this->model('Product')->find($product_id);
+        if($product) {
+            if (isset($_POST['quantity'])) {
+                if($_POST['quantity'] > $product->quantity) {
+                    $_POST['quantity'] = $product->quantity;
+                }
+                $cart['id'] = $product_id;
+                $cart['name'] = $product->name;
+                $cart['image'] = $product->image;
+                $cart['price'] = $product->price;
+                $cart['quantity'] = $_POST['quantity'];
+                if(isset($_SESSION['cart_products'][$product_id])) {
+                    $cart['quantity'] += $_SESSION['cart_products'][$product_id]['quantity'];
+                }
+                $_SESSION['cart_products'][$product_id] = $cart;
+
+                $product->quantity = $product->quantity - $_POST['quantity'];
+                $product->update();
+
+                header('location:'.$GLOBALS['url_path'].'/index');
+            } else {
+                return $this->view('product/details', ['product' => $product]);
+            }
+        } else {
+            header('location:'.$GLOBALS['url_path'].'/index');
+        }
     }
 }

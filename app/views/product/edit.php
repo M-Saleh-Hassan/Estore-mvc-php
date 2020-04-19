@@ -39,6 +39,9 @@
                                 <input type="text" class="form-control" name="name"  value="<?=$data['product']->name?>" placeholder="Product Name" required>
                             </div>
                             <div class="col-md-12 form-group p_star">
+                                <textarea class="form-control"  name="description" placeholder="Product Description" required><?=$data['product']->description?></textarea>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
                                 <input type="number" class="form-control" min="1" name="price" value="<?=$data['product']->price?>" placeholder="Product Price" required>
                             </div>
 

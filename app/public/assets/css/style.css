@@ -4382,6 +4382,7 @@ input:focus {
 /* line 26, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_latest_products.scss */
 .latest-product-area .single-product .product-img img {
   width: 100%;
+  height: 250px;
 }
 
 /* line 30, ../../SAIFUL/Running_project/250 eCommerce_HTML/250 eCommerce_HTML/250 eCommerce_HTML/assets/scss/_latest_products.scss */
