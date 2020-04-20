@@ -78,12 +78,12 @@ class Product extends Model
     $stmt = self::$_connection->prepare($SQL);
     $stmt->execute(['seller_id' => $seller_id]);
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Product');
-    return $stmt->fetchAll();    
+    return $stmt->fetchAll();
   }
 
   public function getProducts($limit, $orderBy)
   {
-    $SQL = 'SELECT * FROM product order by '.$orderBy.' desc limit ' .$limit;
+    $SQL = 'SELECT * FROM product order by ' . $orderBy . ' desc limit ' . $limit;
     $stmt = self::$_connection->prepare($SQL);
     $stmt->execute();
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Product');

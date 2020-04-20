@@ -32,6 +32,7 @@
         <th>Price</th>
         <th>Quantity</th>
         <th>Category</th>
+        <th style="width: 20px">Report</th>
         <th style="width: 20px">edit</th>
         <th style="width: 20px">delete</th>
       </tr>
@@ -44,6 +45,7 @@
             <td><?=$product->price?> $</td>
             <td><?=$product->quantity?></td>
             <td><?=$product->category?></td>
+            <td><a href="<?=$GLOBALS['url_path']?>/product/report/<?=$product->id?>"><button type="button" class="btn btn-block btn-primary btn-lg"> details</button></a></td>
             <td>
               <a href="<?=$GLOBALS['url_path']?>/product/edit/<?=$product->id?>"><button type="button" class="btn btn-block btn-primary btn-lg"> Edit</button></a> 
             </td>

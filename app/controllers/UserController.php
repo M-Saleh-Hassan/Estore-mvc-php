@@ -147,4 +147,19 @@ class UserController extends Controller
         }
         
     }
+
+    public function info($user_id)
+    {
+        $user = $this->model('CustomerProfile')->find($user_id);
+        if ($user) {
+            $success = "";
+            if(isset($_SESSION['success'])) {
+                $success = $_SESSION['success'];
+                unset($_SESSION['success']);
+            }
+            return $this->view('user/info', ['user' => $user, 'success' => $success]);
+        } else {
+            header('location:'.$GLOBALS['url_path'].'/index');
+        }
+    }
 }

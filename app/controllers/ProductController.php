@@ -126,4 +126,20 @@ class ProductController extends Controller
             header('location:'.$GLOBALS['url_path'].'/index');
         }
     }
+
+    public function report($product_id)
+    {
+        $product = $this->model('Product')->find($product_id);
+        if($product) {
+            $order_sales_count = $this->model('OrderDetail')->getProductOrderDetails($product_id);
+            if(is_null($order_sales_count->quantity)) {
+                $order_sales_count = 0;
+            } else {
+                $order_sales_count = $order_sales_count->quantity;
+            }
+            return $this->view('product/report', ['order_sales_count' => $order_sales_count]);
+        } else {
+            header('location:'.$GLOBALS['url_path'].'/index');
+        }
+    }
 }

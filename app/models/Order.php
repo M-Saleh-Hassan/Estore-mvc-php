@@ -33,4 +33,29 @@ class Order extends Model
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Order');
         return $stmt->fetch();
     }
+
+    public function getProductOrderDetails($product_id)
+    {
+        $SQL = 'SELECT sum(quantity)  as  quantity FROM order_details where product_id = :product_id';
+        $stmt = self::$_connection->prepare($SQL);
+        $stmt->execute(['product_id' => $product_id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'OrderDetail');
+        return $stmt->fetch();
+    }
+
+    public function getSellerOrders($seller_id)
+    { 
+        $SQL = '
+            SELECT orders.*, order_sellers.seller_id
+            FROM `orders`
+            INNER JOIN order_sellers on order_sellers.order_id = orders.id
+            GROUP BY orders.id
+            HAVING order_sellers.seller_id = :seller_id
+        ';
+        $stmt = self::$_connection->prepare($SQL);
+        $stmt->execute(['seller_id' => $seller_id]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'Order');
+        return $stmt->fetchAll();
+    }
+    
 }
