@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="hero-cap text-center">
-                        <h2>Customer Info</h2>
+                        <h2>Profile Info</h2>
                     </div>
                 </div>
             </div>

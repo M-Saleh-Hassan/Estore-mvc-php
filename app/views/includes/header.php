@@ -8,20 +8,20 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="manifest" href="site.webmanifest">
-	<link rel="shortcut icon" type="image/x-icon" href="<?=$GLOBALS['home_path']?>/public/assets/img/favicon.ico">
+	<link rel="shortcut icon" type="image/x-icon" href="<?= $GLOBALS['home_path'] ?>/public/assets/img/favicon.ico">
 
 	<!-- CSS here -->
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/owl.carousel.min.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/flaticon.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/slicknav.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/animate.min.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/fontawesome-all.min.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/themify-icons.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/slick.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/nice-select.css">
-	<link rel="stylesheet" href="<?=$GLOBALS['home_path']?>/public/assets/css/style.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/flaticon.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/slicknav.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/animate.min.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/magnific-popup.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/themify-icons.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/slick.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/nice-select.css">
+	<link rel="stylesheet" href="<?= $GLOBALS['home_path'] ?>/public/assets/css/style.css">
 </head>
 
 <body>
@@ -32,7 +32,7 @@
 			<div class="preloader-inner position-relative">
 				<div class="preloader-circle"></div>
 				<div class="preloader-img pere-text">
-					<img src="<?=$GLOBALS['home_path']?>/public/assets/img/logo/logo.png" alt="">
+					<img src="<?= $GLOBALS['home_path'] ?>/public/assets/img/logo/logo.png" alt="">
 				</div>
 			</div>
 		</div>
@@ -49,7 +49,7 @@
 							<!-- Logo -->
 							<div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
 								<div class="logo">
-									<a href="<?=$GLOBALS['home_path']?>/index"><img src="<?=$GLOBALS['home_path']?>/public/assets/img/logo/logo.png" alt=""></a>
+									<a href="<?= $GLOBALS['home_path'] ?>/index"><img src="<?= $GLOBALS['home_path'] ?>/public/assets/img/logo/logo.png" alt=""></a>
 								</div>
 							</div>
 							<div class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
@@ -57,21 +57,23 @@
 								<div class="main-menu f-right d-none d-lg-block">
 									<nav>
 										<ul id="navigation">
-											<li><a href="<?=$GLOBALS['url_path']?>/index">Home</a></li>
-											<li><a href="<?=$GLOBALS['url_path'].'/store/index'?>">Products</a></li>
+											<li><a href="<?= $GLOBALS['url_path'] ?>/index">Home</a></li>
+											<li><a href="<?= $GLOBALS['url_path'] . '/store/index' ?>">Products</a></li>
 											<?php
-												if(isset($_SESSION['user_type'])) {
-													?>
-													<li><a href="<?=$GLOBALS['url_path']?>/cart/index">Cart</a></li>
-													<li><a href="<?=$GLOBALS['url_path']?>/order/index">Orders</a></li>
-													<li><a href="<?=$GLOBALS['url_path']?>/user/account">Account</a></li>
-													<?php
-												}
+											if (isset($_SESSION['user_type'])) {
+												?>
+												<li><a href="<?= $GLOBALS['url_path'] ?>/cart/index">Cart</a></li>
+												<li><a href="<?= $GLOBALS['url_path'] ?>/user/account">Account</a></li>
+											<?php
+											}
 											?>
 											<?php
-												if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'seller') {
-													echo '<li><a href="'.$GLOBALS['url_path'].'/product/index">Shop</a></li>';
-												}
+											if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'seller') {
+												?>
+												<li><a href="<?= $GLOBALS['url_path'] ?>/product/index">Shop</a></li>
+												<li><a href="<?= $GLOBALS['url_path'] ?>/order/index">Orders</a></li>
+											<?php
+											}
 											?>
 										</ul>
 									</nav>
@@ -81,24 +83,28 @@
 								<ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
 									<li class="d-none d-xl-block">
 										<div class="form-box f-right ">
-											<input type="text" name="Search" placeholder="Search products">
-											<div class="search-icon">
-												<i class="fas fa-search special-tag"></i>
-											</div>
+											<form action="<?= $GLOBALS['url_path'] . '/store/index' ?>" method="get">
+												<input type="text" name="search" placeholder="Search products">
+												<button style="display: contents;" type="submit">
+													<div class="search-icon">
+														<i class="fas fa-search special-tag"></i>
+													</div>
+
+												</button>
+											</form>
 										</div>
 									</li>
 									<li>
 										<div class="shopping-card">
-											<a href="<?=$GLOBALS['url_path']?>/cart/index"><i class="fas fa-shopping-cart"></i></a>
+											<a href="<?= $GLOBALS['url_path'] ?>/cart/index"><i class="fas fa-shopping-cart"></i></a>
 										</div>
 									</li>
 									<?php
-										if(isset($_SESSION['user_id'])){
-											echo '<li class="d-none d-lg-block"> <a href="' . $GLOBALS['url_path'] . '/user/logout" class="btn header-btn">Log out</a></li>';
-										}
-										else{
-											echo '<li class="d-none d-lg-block"> <a href="' . $GLOBALS['url_path'] . '/user/login" class="btn header-btn">Sign in</a></li>';
-										}
+									if (isset($_SESSION['user_id'])) {
+										echo '<li class="d-none d-lg-block"> <a href="' . $GLOBALS['url_path'] . '/user/logout" class="btn header-btn">Log out</a></li>';
+									} else {
+										echo '<li class="d-none d-lg-block"> <a href="' . $GLOBALS['url_path'] . '/user/login" class="btn header-btn">Sign in</a></li>';
+									}
 									?>
 								</ul>
 							</div>

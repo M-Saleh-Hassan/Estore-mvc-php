@@ -4,7 +4,11 @@ class StoreController extends Controller
 {
     public function index()
     {   
-        $products = $this->model('Product')->getProducts(12, 'id');
+        if(isset($_GET['search'])) {
+            $products = $this->model('Product')->getSearchedProducts($_GET['search']);
+        } else {
+            $products = $this->model('Product')->getProducts(12, 'id');
+        }
         return $this->view('store/index', ['products' => $products]);
     }
     

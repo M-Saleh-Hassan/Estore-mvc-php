@@ -16,7 +16,7 @@
                             <p data-animation="fadeInRight" data-delay=".8s">Best Cloth Collection By 2020!</p>
                             <!-- Hero-btn -->
                             <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
-                                <a href="<?=$GLOBALS['url_path']?>/store/index" class="btn hero-btn">Shop Now</a>
+                                <a href="<?= $GLOBALS['url_path'] ?>/store/index" class="btn hero-btn">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                             <p data-animation="fadeInRight" data-delay=".8s">Best Cloth Collection By 2020!</p>
                             <!-- Hero-btn -->
                             <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
-                                <a href="<?=$GLOBALS['url_path']?>/store/index" class="btn hero-btn">Shop Now</a>
+                                <a href="<?= $GLOBALS['url_path'] ?>/store/index" class="btn hero-btn">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -62,11 +62,9 @@
                 <div class="properties__button f-right">
                     <!--Nav Button  -->
                     <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist" >
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">All</a>
-                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">New</a>
-                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Featured</a>
-                            <a class="nav-item nav-link" id="nav-last-tab" data-toggle="tab" href="#nav-last" role="tab" aria-controls="nav-contact" aria-selected="false">Offer</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Promotion</a>
                         </div>
                     </nav>
                     <!--End Nav Button  -->
@@ -78,56 +76,91 @@
             <!-- card one -->
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                 <div class="row">
-                <?php
+                    <?php
                     foreach ($data['products'] as $product) {
                         ?>
                         <div class="col-xl-4 col-lg-4 col-md-6">
                             <div class="single-product mb-60">
                                 <div class="product-img">
-                                    <img src="<?=$GLOBALS['home_path'] . '/../' . $product->image?>" alt="">
-                                    <!-- <div class="new-product">
-                                        <span>New</span>
-                                    </div> -->
+                                    <img src="<?= $GLOBALS['home_path'] . '/../' . $product->image ?>" alt="">
+                                    <?php if ($product->has_promotion && $product->expiry_date > date("Y-m-d")) : ?>
+                                        <div class="new-product">
+                                            <span>Pro</span>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="product-caption">
                                     <div class="product-ratting">
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star low-star"></i>
-                                        <i class="far fa-star low-star"></i>
+                                        <?php for ($i = 0; $i < $product->getRate(); $i++) : ?>
+                                            <i class="far fa-star"></i>
+                                        <?php endfor; ?>
+                                        <?php for ($i = 0; $i < 5 - $product->getRate(); $i++) : ?>
+                                            <i class="far fa-star low-star"></i>
+                                        <?php endfor; ?>
                                     </div>
-                                    <h4><a href="<?=$GLOBALS['url_path']?>/product/details/<?=$product->id?>"><?=$product->name?></a></h4>
+                                    <h4><a href="<?= $GLOBALS['url_path'] ?>/product/details/<?= $product->id ?>"><?= $product->name ?></a></h4>
                                     <div class="price">
                                         <ul>
-                                            <li>$ <?=$product->price?></li>
-                                            <!-- <li class="discount">$60.00</li> -->
+                                            <?php if ($product->has_promotion && $product->expiry_date > date("Y-m-d")) : ?>
+                                                <li>$ <?= $product->new_price ?></li>
+                                                <li class="discount">$ <?= $product->price ?></li>
+                                            <?php else : ?>
+                                                <li>$ <?= $product->price ?></li>
+                                            <?php endif; ?>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <?php
+                    <?php
                     }
-                ?>
+                    ?>
                 </div>
             </div>
             <!-- Card two -->
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <div class="row">
-                    
-                </div>
-            </div>
-            <!-- Card three -->
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <div class="row">
-                    
-                </div>
-            </div>
-            <!-- card foure -->
-            <div class="tab-pane fade" id="nav-last" role="tabpanel" aria-labelledby="nav-last-tab">
-                <div class="row">
-                    
+                    <?php
+                    foreach ($data['products'] as $product) {
+                        if ($product->has_promotion && $product->expiry_date > date("Y-m-d")) :
+                            ?>
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single-product mb-60">
+                                    <div class="product-img">
+                                        <img src="<?= $GLOBALS['home_path'] . '/../' . $product->image ?>" alt="">
+                                        <?php if ($product->has_promotion && $product->expiry_date > date("Y-m-d")) : ?>
+                                            <div class="new-product">
+                                                <span>Pro</span>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="product-caption">
+                                        <div class="product-ratting">
+                                            <?php for ($i = 0; $i < $product->getRate(); $i++) : ?>
+                                                <i class="far fa-star"></i>
+                                            <?php endfor; ?>
+                                            <?php for ($i = 0; $i < 5 - $product->getRate(); $i++) : ?>
+                                                <i class="far fa-star low-star"></i>
+                                            <?php endfor; ?>
+                                        </div>
+                                        <h4><a href="<?= $GLOBALS['url_path'] ?>/product/details/<?= $product->id ?>"><?= $product->name ?></a></h4>
+                                        <div class="price">
+                                            <ul>
+                                                <?php if ($product->has_promotion && $product->expiry_date > date("Y-m-d")) : ?>
+                                                    <li>$ <?= $product->new_price ?></li>
+                                                    <li class="discount">$ <?= $product->price ?></li>
+                                                <?php else : ?>
+                                                    <li>$ <?= $product->price ?></li>
+                                                <?php endif; ?>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <?php
+                        endif;
+                    }
+                    ?>
                 </div>
             </div>
         </div>

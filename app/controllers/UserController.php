@@ -150,14 +150,28 @@ class UserController extends Controller
 
     public function info($user_id)
     {
-        $user = $this->model('CustomerProfile')->find($user_id);
+        $user = $this->model('User')->findById($user_id);
         if ($user) {
             $success = "";
             if(isset($_SESSION['success'])) {
                 $success = $_SESSION['success'];
                 unset($_SESSION['success']);
             }
-            return $this->view('user/info', ['user' => $user, 'success' => $success]);
+            if($user->user_type == "seller") {
+                $user = $this->model('ShopProfile')->find($user_id);
+                if($user) {
+                    return $this->view('shop_profile/info', ['user' => $user, 'success' => $success]);
+                } else {
+                    return header('location:'.$GLOBALS['url_path'].'/index');
+                }
+            } else {
+                $user = $this->model('CustomerProfile')->find($user_id);
+                if($user) {
+                    return $this->view('customer_profile/info', ['user' => $user, 'success' => $success]);
+                } else {
+                    return header('location:'.$GLOBALS['url_path'].'/index');
+                }
+            }
         } else {
             header('location:'.$GLOBALS['url_path'].'/index');
         }

@@ -11,3 +11,8 @@ CREATE TABLE `product`
     PRIMARY KEY(`id`)
 ) 
 ENGINE = InnoDB;
+
+ALTER TABLE `product`
+ADD `has_promotion` INT(1) NOT NULL DEFAULT '0' AFTER `image`, 
+ADD `expiry_date` DATE NULL DEFAULT NULL AFTER `has_promotion`, 
+ADD `new_price` VARCHAR(255) NULL DEFAULT NULL AFTER `expiry_date`;

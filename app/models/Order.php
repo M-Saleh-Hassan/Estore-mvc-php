@@ -3,6 +3,7 @@
 
 class Order extends Model
 {
+    var $id;
     var $customer_id;
     var $date_ordered;
     var $date_required;
@@ -27,7 +28,7 @@ class Order extends Model
 
     public function find($order_id)
     {
-        $SQL = 'SELECT * FROM order WHERE id = :order_id';
+        $SQL = 'SELECT * FROM orders WHERE id = :order_id';
         $stmt = self::$_connection->prepare($SQL);
         $stmt->execute(['order_id' => $order_id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Order');
@@ -56,6 +57,60 @@ class Order extends Model
         $stmt->execute(['seller_id' => $seller_id]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Order');
         return $stmt->fetchAll();
+    }
+
+    public function hasOrderedProductBefore($customer_id, $product_id)
+    {
+        $SQL = '
+            SELECT orders.*
+            FROM `orders`
+            INNER JOIN order_details on order_details.order_id = orders.id
+            WHERE orders.customer_id = :customer_id AND order_details.product_id = :product_id
+        ';
+        $stmt = self::$_connection->prepare($SQL);
+        $stmt->execute([
+            'customer_id' => $customer_id,
+            'product_id' => $product_id
+        ]);
+        if($stmt->rowCount()) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public function getOrderDetails()
+    {
+        $SQL = '
+        SELECT order_details.*
+        FROM `orders`
+        INNER JOIN order_details on order_details.order_id = orders.id
+        WHERE orders.id = :order_id
+        ';
+        $stmt = self::$_connection->prepare($SQL);
+        $stmt->execute(['order_id' => $this->id]);
+        return $stmt->fetchAll();
+    }
+
+    public function getOrderSellers()
+    {
+        $SQL = '
+        SELECT order_sellers.*
+        FROM `orders`
+        INNER JOIN order_sellers on order_sellers.order_id = orders.id
+        WHERE orders.id = :order_id
+        ';
+        $stmt = self::$_connection->prepare($SQL);
+        $stmt->execute(['order_id' => $this->id]);
+        return $stmt->fetchAll();
+    }
+
+    public function delete()
+    {
+        $SQL = 'DELETE FROM orders WHERE id = :id';
+        $stmt = self::$_connection->prepare($SQL);
+        return $stmt->execute(['id' => $this->id]);
     }
     
 }

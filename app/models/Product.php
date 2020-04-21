@@ -10,6 +10,9 @@ class Product extends Model
   var $category;
   var $image;
   var $description;
+  var $has_promotion;
+  var $expiry_date;
+  var $new_price;
 
   public function create()
   {
@@ -39,14 +42,14 @@ class Product extends Model
   public function update()
   {
     $SQL = 'UPDATE product SET
-        name = :name,
-        description = :description,
-        price = :price,
-        quantity = :quantity,
-        category = :category,
-        image = :image
-        WHERE id = :id
-        ';
+      name = :name,
+      description = :description,
+      price = :price,
+      quantity = :quantity,
+      category = :category,
+      image = :image
+      WHERE id = :id
+    ';
     $stmt = self::$_connection->prepare($SQL);
     $execute = $stmt->execute([
       'name' => $this->name,
@@ -60,11 +63,27 @@ class Product extends Model
     return $execute;
   }
 
+  public function updatePromotion()
+  {
+    $SQL = 'UPDATE product SET
+      has_promotion = :has_promotion,
+      new_price = :new_price,
+      expiry_date = :expiry_date
+      WHERE id = :id
+    ';
+    $stmt = self::$_connection->prepare($SQL);
+    $execute = $stmt->execute([
+      'has_promotion' => $this->has_promotion,
+      'new_price' => $this->new_price,
+      'expiry_date' => $this->expiry_date,
+      'id' => $this->id
+    ]);
+    return $execute;
+  }
+
   public function delete($product_id)
   {
-    $SQL = 'DELETE FROM product 
-        WHERE id = :product_id
-        ';
+    $SQL = 'DELETE FROM product WHERE id = :product_id';
     $stmt = self::$_connection->prepare($SQL);
     $execute = $stmt->execute([
       'product_id' => $product_id
@@ -86,6 +105,23 @@ class Product extends Model
     $SQL = 'SELECT * FROM product order by ' . $orderBy . ' desc limit ' . $limit;
     $stmt = self::$_connection->prepare($SQL);
     $stmt->execute();
+    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Product');
+    return $stmt->fetchAll();
+  }
+
+  public function getRate()
+  {
+    $SQL = 'SELECT AVG(rating) as rate FROM review where product_id = :product_id';
+    $stmt = self::$_connection->prepare($SQL);
+    $stmt->execute(['product_id' => $this->id]);
+    return round($stmt->fetch()['rate']);
+  }
+
+  public function getSearchedProducts($search)
+  {
+    $SQL = 'SELECT * FROM product WHERE name  LIKE :search';
+    $stmt = self::$_connection->prepare($SQL);
+    $stmt->execute(['search' => '%' . $search . '%']);
     $stmt->setFetchMode(PDO::FETCH_CLASS, 'Product');
     return $stmt->fetchAll();
   }

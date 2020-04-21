@@ -36,4 +36,11 @@ class OrderDetail extends Model
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'OrderDetail');
         return $stmt->fetch();
     }
+
+    public function delete($id)
+    {
+        $SQL = 'DELETE FROM order_details WHERE id = :id';
+        $stmt = self::$_connection->prepare($SQL);
+        return $stmt->execute(['id' => $id]);
+    }
 }

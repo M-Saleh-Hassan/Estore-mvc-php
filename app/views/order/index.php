@@ -23,7 +23,7 @@
                 <th>Ordered date</th>
                 <th>Required date</th>
                 <th style="width: 20px">Customer</th>
-                <th style="width: 20px">Status</th>
+                <th style="width: 20px">Cancel</th>
             </tr>
             <?php
             foreach ($data['orders'] as $order) {
@@ -33,7 +33,7 @@
                     <td><?= $order->date_ordered ?></td>
                     <td><?= $order->date_required ?></td>
                     <td><a href="<?= $GLOBALS['url_path'] ?>/user/info/<?= $order->customer_id ?>"><button type="button" class="btn btn-block btn-primary btn-lg"> Profile</button></a></td>
-                    <td><?=$order->status?></td>
+                    <td><a href="<?= $GLOBALS['url_path'] ?>/order/cancel/<?= $order->id ?>"><button type="button" class="btn btn-block btn-primary btn-lg"> Cancel</button></a></td>
                 </tr>
             <?php
             }

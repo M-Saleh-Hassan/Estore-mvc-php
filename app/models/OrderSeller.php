@@ -25,4 +25,11 @@ class OrderSeller extends Model
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'OrderSeller');
         return $stmt->fetch();
     }
+
+    public function delete($id)
+    {
+        $SQL = 'DELETE FROM order_sellers WHERE id = :id';
+        $stmt = self::$_connection->prepare($SQL);
+        return $stmt->execute(['id' => $id]);
+    }
 }
