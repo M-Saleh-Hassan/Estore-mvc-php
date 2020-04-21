@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2020 at 09:23 AM
+-- Generation Time: Apr 21, 2020 at 04:29 AM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 7.2.9
 
@@ -44,6 +44,29 @@ CREATE TABLE `customer_profile` (
 INSERT INTO `customer_profile` (`id`, `customer_id`, `first_name`, `last_name`, `email`, `phone`) VALUES
 (1, 9, 'Mohamed1', 'Saleh1', 'mohmed2778@hotmail.com1', '011552736371'),
 (5, 10, 'Mohamed2', 'Saleh2', 'mohmed2778@hotmail.com2', '011552736372');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `message`
+--
+
+CREATE TABLE `message` (
+  `id` int(10) NOT NULL,
+  `seller_id` int(10) NOT NULL,
+  `customer_id` int(10) NOT NULL,
+  `customer_email` varchar(255) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `message`
+--
+
+INSERT INTO `message` (`id`, `seller_id`, `customer_id`, `customer_email`, `subject`, `message`, `created_at`) VALUES
+(2, 6, 9, 'test_vlaid@hotmail.com', 'test s', 'test ', '2020-04-20 09:06:16');
 
 -- --------------------------------------------------------
 
@@ -119,17 +142,64 @@ CREATE TABLE `product` (
   `price` varchar(255) NOT NULL,
   `quantity` int(5) NOT NULL,
   `category` varchar(255) NOT NULL,
-  `image` text NOT NULL
+  `image` text NOT NULL,
+  `has_promotion` int(1) NOT NULL DEFAULT '0',
+  `expiry_date` date DEFAULT NULL,
+  `new_price` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`id`, `seller_id`, `name`, `description`, `price`, `quantity`, `category`, `image`) VALUES
-(3, 6, 'product 12', 'test desc', '22', 12, 'test', 'app/public/uploads/Bus Vooking System.png'),
-(4, 6, 'test', 'test descssa', '10', 5, 'test', 'app/public/uploads/Nrwtaxi - PROFESSIONELLER FLUGHAFENTRANSFER.png'),
-(5, 6, 'test 11', 'productproduct product productproduct product v productproduct product productproduct product 555', '1500', 0, 'test', 'app/public/uploads/Bus Vooking System.png');
+INSERT INTO `product` (`id`, `seller_id`, `name`, `description`, `price`, `quantity`, `category`, `image`, `has_promotion`, `expiry_date`, `new_price`) VALUES
+(3, 6, 'product 12', 'test desc', '22', 10, 'test', 'app/public/uploads/Bus Vooking System.png', 1, '2020-04-25', '21'),
+(4, 6, 'test', 'test descssa', '10', 4, 'test', 'app/public/uploads/Nrwtaxi - PROFESSIONELLER FLUGHAFENTRANSFER.png', 0, NULL, NULL),
+(5, 6, 'test 11', 'productproduct product productproduct product v productproduct product productproduct product 555', '1500', 5, 'test', 'app/public/uploads/Bus Vooking System.png', 0, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review`
+--
+
+CREATE TABLE `review` (
+  `id` int(10) NOT NULL,
+  `product_id` int(10) NOT NULL,
+  `customer_id` int(10) NOT NULL,
+  `comment` text NOT NULL,
+  `rating` int(2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `review`
+--
+
+INSERT INTO `review` (`id`, `product_id`, `customer_id`, `comment`, `rating`, `created_at`) VALUES
+(1, 5, 9, 'test test ', 3, '2020-04-20 21:45:49'),
+(2, 5, 1, 'test test ', 5, '2020-04-20 21:45:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review_likes`
+--
+
+CREATE TABLE `review_likes` (
+  `id` int(10) NOT NULL,
+  `review_id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `review_likes`
+--
+
+INSERT INTO `review_likes` (`id`, `review_id`, `user_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -189,6 +259,12 @@ ALTER TABLE `customer_profile`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `message`
+--
+ALTER TABLE `message`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -210,6 +286,18 @@ ALTER TABLE `order_sellers`
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `review_likes`
+--
+ALTER TABLE `review_likes`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -236,28 +324,46 @@ ALTER TABLE `customer_profile`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `message`
+--
+ALTER TABLE `message`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `order_sellers`
 --
 ALTER TABLE `order_sellers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `review`
+--
+ALTER TABLE `review`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `review_likes`
+--
+ALTER TABLE `review_likes`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `shop_profile`
