@@ -160,7 +160,8 @@ class UserController extends Controller
             if($user->user_type == "seller") {
                 $user = $this->model('ShopProfile')->find($user_id);
                 if($user) {
-                    return $this->view('shop_profile/info', ['user' => $user, 'success' => $success]);
+                    $products = $this->model('Product')->getUserProducts($user_id);
+                    return $this->view('shop_profile/info', ['user' => $user, 'success' => $success, 'products' => $products]);
                 } else {
                     return header('location:'.$GLOBALS['url_path'].'/index');
                 }

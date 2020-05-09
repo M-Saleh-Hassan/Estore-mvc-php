@@ -4,6 +4,9 @@ class ProductController extends Controller
 {
     public function index()
     {   
+        if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'seller' && $this->model('ShopProfile')->find($_SESSION['user_id']) == false) {
+            header('location:'.$GLOBALS['url_path'].'/user/account');
+        }
         if(isset($_SESSION['user_id'])) {
             $products = $this->model('Product')->getUserProducts($_SESSION['user_id']);
             $this->view('product/index', ['products' => $products]);
@@ -99,6 +102,9 @@ class ProductController extends Controller
 
     public function details($product_id)
     {
+        if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'buyer' && $this->model('CustomerProfile')->find($_SESSION['user_id']) == false) {
+            header('location:'.$GLOBALS['url_path'].'/user/account');
+        }
         $product = $this->model('Product')->find($product_id);
         if($product) {
             if (isset($_POST['quantity']) && isset($_SESSION['user_id'])) {

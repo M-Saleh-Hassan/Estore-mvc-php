@@ -11,7 +11,7 @@ class Model{
       $host = 'localhost';
       $DBName = 'test';
       self::$_connection =  new PDO("mysql:host=$host;dbname=$DBName", $user, $password);
-      self::$_connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+      // self::$_connection->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
     }
   }
 }

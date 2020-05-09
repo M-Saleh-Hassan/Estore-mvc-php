@@ -38,6 +38,34 @@ if (!empty($data['success'])) {
     </div>
 </section>
 
+<br><br>
+<div class="box-body no-padding">
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <th style="width: 10px">#</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th style="width: 30px">View</th>
+      </tr>
+      <?php
+        foreach ($data['products'] as $product) {
+          ?>
+          <tr>
+            <td><?=$product->id?></td>
+            <td><?=$product->name?></td>
+            <td><?=$product->price?> $</td>
+            <td><?=$product->category?></td>
+            <td><a href="<?=$GLOBALS['url_path']?>/product/details/<?=$product->id?>"><button type="button" class="btn btn-block btn-primary btn-lg">View</button></a></td>
+          </tr>
+          <?php
+        }
+      ?>
+    </tbody>
+  </table>
+</div>
+
 <!-- ================ contact section start ================= -->
 <section class="contact-section">
     <div class="container">

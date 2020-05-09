@@ -69,7 +69,15 @@
     <h2 class="text-center">Reviews and Comments</h2>
     <?php
     foreach ($data['reviews'] as $review) :
-        $customer_data = $this->model('CustomerProfile')->find($review->customer_id);
+        $user = $this->model('User')->findById($review->customer_id);
+        if($user->user_type == 'buyer'){
+            $profile_data = $this->model('CustomerProfile')->find($review->customer_id);
+            $profile_name = $profile_data->first_name . ' ' . $profile_data->last_name;
+        }
+        elseif ($user->user_type == 'seller') {
+            $profile_data = $this->model('CustomerProfile')->find($review->customer_id);
+            $profile_name = $profile_data->shop_name;
+        }
         $likes = $this->model('ReviewLike')->getReviewLikes($review->id);
         ?>
         <div class="card">
@@ -81,7 +89,7 @@
                     </div>
                     <div class="col-md-10">
                         <p>
-                            <a class="float-left" href="<?= $GLOBALS['url_path'] ?>/user/info/<?= $review->customer_id ?>" style="color: #635c5c;"><strong><?= $customer_data->first_name . ' ' . $customer_data->last_name ?></strong></a>
+                            <a class="float-left" href="<?= $GLOBALS['url_path'] ?>/user/info/<?= $review->customer_id ?>" style="color: #635c5c;"><strong><?= $profile_name ?></strong></a>
                             <?php for ($i = 0; $i < $review->rating; $i++) : ?>
                                 <span class="float-right"><i class="text-warning fa fa-star"></i></span>
                             <?php endfor; ?>

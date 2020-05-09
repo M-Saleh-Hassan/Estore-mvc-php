@@ -4,6 +4,9 @@ class StoreController extends Controller
 {
     public function index()
     {   
+        if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'buyer' && $this->model('CustomerProfile')->find($_SESSION['user_id']) == false) {
+            header('location:'.$GLOBALS['url_path'].'/user/account');
+        }
         if(isset($_GET['search'])) {
             $products = $this->model('Product')->getSearchedProducts($_GET['search']);
         } else {
